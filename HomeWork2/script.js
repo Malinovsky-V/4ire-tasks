@@ -1,5 +1,5 @@
-let processLoop = true;
-while (processLoop) {
+let process = true;
+while (process) {
   const n = prompt("Введіть порядковий номер числа послідовності Фібоначчі");
   if (n === null) {
     process = false;
