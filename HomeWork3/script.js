@@ -8,15 +8,15 @@ const arrayForTest = [
   null,
   undefined,
   { 1: 12 },
-  [1, 2, "12", Symbol(12)],
+  [1, 2, "12", {1:12, 12:1}],
   true,
   false,
   function () {},
 ];
 
-console.log(filterBy(arrayForTest, "number"));
-console.log(filterBy(arrayForTest, "string"));
-console.log(filterBy(arrayForTest, "symbol"));
-console.log(filterBy(arrayForTest, "object"));
-console.log(filterBy(arrayForTest, "boolean"));
-console.log(filterBy(arrayForTest, "function"));
+console.log('Without number', filterBy(arrayForTest, "number"));
+console.log('Without string', filterBy(arrayForTest, "string"));
+console.log('Without symbol', filterBy(arrayForTest, "symbol"));
+console.log('Without object and null', filterBy(arrayForTest, "object"));
+console.log('Without boolean', filterBy(arrayForTest, "boolean"));
+console.log('Without function', filterBy(arrayForTest, "function"));
