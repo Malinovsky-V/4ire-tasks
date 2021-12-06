@@ -147,5 +147,3 @@ console.log(analysisDifferent(resultNigthTime))
 
 // console.log(purchasePower())
 // console.log(sellingPower())
-
-
