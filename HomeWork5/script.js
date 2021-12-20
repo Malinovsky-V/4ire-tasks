@@ -3,133 +3,143 @@ const allInputValues = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."],
       textDisplay = document.querySelector("input[type='text'"),
       blockEvent = document.querySelector(".keys");
 
-let firstNum = "",
-  secondNum = "",
+let firstNumb = "",
+  secondNumb = "",
   operator = "",
-  finish = false,
+  endCounter = false,
   memory = 0,
-  memoryWasUsed = false,
-  startSecondNum = false;
+  memoryUsed = false,
+  memoryValue = 0,
+  nextNumb = false,
+  result = 0;
 // Функція обнулення та очистки всіх даних
 function reset() {
   result = 0;
-  firstNum = "";
-  secondNum = "";
+  firstNumb = "";
+  nextNumb = "";
   operator = "";
-  finish = false;
+  endCounter = false;
   textDisplay.value = 0;
 }
 
 // Функція математичних розрахунків
 function math() {
-  if(operator === '+') result = firstNum + secondNum;
-  if(operator === '-') result = firstNum - secondNum;
-  if(operator === '*') result = firstNum * secondNum;
+  if(operator === '+') result = firstNumb + secondNumb;
+  if(operator === '-') result = firstNumb - secondNumb;
+  if(operator === '*') result = firstNumb * secondNumb;
   if(operator === '/') {
-    if (secondNum === 0) {
+  if (secondNumb === 0) {
         alert("На нуль ділити не можна");
         return reset();
       }
-      result = firstNum / secondNum;
+      result = firstNumb / secondNumb;
   }
-  finish = true;
+  endCounter = true;
   operator = "";
-  secondNum = "";
+  secondNumb = "";
   return (textDisplay.value = result);
 }
 
   //  Прив'язка події кліку мишкою до всіх кнопок.
   blockEvent.addEventListener("click", (event) => {
+      console.log(event.target.value)
     const clickValue = event.target.value;
     if (clickValue === "C") {
-      return reset();
+     reset();
     }
     if (allInputValues.includes(clickValue)) {
-      if (finish || textDisplay.value === "0" || startSecondNum) {
+      if (endCounter || textDisplay.value === "0" || nextNumb) {
         textDisplay.value = "";
       }
-      startSecondNum = false;
+      nextNumb = false;
       textDisplay.value += clickValue;
-      finish = false;
-
-      return;
+      endCounter = false;
     }
 
     if (mathOperators.includes(clickValue)) {
       if (
-        (finish || startSecondNum || textDisplay.value === "") &&
+        (endCounter || nextNumb || textDisplay.value === "") &&
         clickValue === "-"
       ) {
         textDisplay.value = "-";
 
-        startSecondNum = false;
-        finish = false;
-
-        return;
+        nextNumb = false;
+        endCounter = false;
       }
 
       if (operator) {
         console.log(operator);
-        secondNum = +textDisplay.value;
-        return math();
+        secondNumb = +textDisplay.value;
+        math();
       }
       operator = clickValue;
-      firstNum = +textDisplay.value;
-      startSecondNum = true;
-      return;
+      firstNumb = +textDisplay.value;
+      nextNumb = true;
+      
     }
 
     if (clickValue === "=") {
-      secondNum = +textDisplay.value;
+      secondNumb = +textDisplay.value;
 
-      return math();
+       math();
+    }
+    if(clickValue === 'mrc') {
+        if(memoryValue === 0) {
+            memoryValue = +textDisplay.value
+    } else {
+        memoryValue = 0
+    }
+}
+    if(clickValue === 'm-'){
+        if(memoryValue) {
+            textDisplay.value = memoryValue - textDisplay.value
+        }
+    }
+    if(clickValue === 'm+'){
+        textDisplay.value = memoryValue + +textDisplay.value
     }
   });
 
   // Вішаємо дію на клавіатуру
-  document.querySelector("body").addEventListener("keydown", function (event) {
+  const bodySelect = document.querySelector("body")
+  bodySelect.addEventListener("keydown", function (event) {
     const putValue = event.key;
     if (putValue.toUpperCase() === "C") {
-      return reset();
+      reset();
     }
     if (allInputValues.includes(putValue)) {
-      if (finish || textDisplay.value === "0" || startSecondNum) {
+      if (endCounter || textDisplay.value === "0" || nextNumb) {
         textDisplay.value = "";
       }
-      startSecondNum = false;
+      nextNumb = false;
       textDisplay.value += putValue;
-      finish = false;
-
-      return;
+      endCounter = false;
     }
 
     if (mathOperators.includes(putValue)) {
       if (
-        (finish || startSecondNum || textDisplay.value === "") &&
+        (endCounter || nextNumb || textDisplay.value === "") &&
         putValue === "-"
       ) {
         textDisplay.value = "-";
-
-        startSecondNum = false;
-        finish = false;
-
-        return;
+        nextNumb = false;
+        endCounter = false;
       }
 
       if (operator) {
         console.log(operator);
-        secondNum = +textDisplay.value;
-        return math();
+        secondNumb = +textDisplay.value;
+         math();
       }
       operator = putValue;
-      firstNum = +textDisplay.value;
-      startSecondNum = true;
-      return;
+      firstNumb = +textDisplay.value;
+      nextNumb = true;
+      
     }
 
     if (putValue === "=" || putValue === "Enter") {
-      secondNum = +textDisplay.value;
-      return math();
+      secondNumb = +textDisplay.value;
+     math();
     }
   });
 
@@ -144,24 +154,5 @@ function math() {
   const memoryUse = document.querySelector(".input[value='mrc']");
   memoryUse.addEventListener("click", (e) => {
     const indicator = document.querySelector(".memory-indicator");
-    if (!indicator) {
-      return;
-    }
-
-    if (memoryWasUsed) {
-      indicator.remove();
-      memory = 0;
-      memoryWasUsed = false;
-      return;
-    }
-    textDisplay.value = memory;
-    memoryWasUsed = true;
-  });
-
-  const memoryPlus = document.querySelector(".input[value='m+']");
-  memoryPlus.addEventListener("click", (e) => {
-    if (textDisplay.value) {
-      memory += +textDisplay.value;
-    }
   });
 
