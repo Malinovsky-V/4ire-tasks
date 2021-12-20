@@ -1,11 +1,11 @@
-const allInputValues = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."];
-const mathOperators = ["+", "-", "*", "/"];
-const textDisplay = document.querySelector("input[type='text'");
-const blockEvent = document.querySelector(".keys");
+const allInputValues = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."],
+      mathOperators = ["+", "-", "*", "/"],
+      textDisplay = document.querySelector("input[type='text'"),
+      blockEvent = document.querySelector(".keys");
 
 let firstNum = "",
   secondNum = "",
-  sign = "",
+  operator = "",
   finish = false,
   memory = 0,
   memoryWasUsed = false,
@@ -15,26 +15,17 @@ function reset() {
   result = 0;
   firstNum = "";
   secondNum = "";
-  sign = "";
+  operator = "";
   finish = false;
   textDisplay.value = 0;
 }
-// Все, що показує дисплей
-function showOnDisplay() {
-  if (document.querySelector(".memory-indicator")) {
-    return;
-  }
-  let tag = `<span class='memory-indicator'>m</span>`;
-  return document
-    .querySelector(".display input")
-    .insertAdjacentHTML("beforebegin", tag);
-}
+
 // Функція математичних розрахунків
 function math() {
-  if(sign === '+') result = +firstNum + +secondNum;
-  if(sign === '-') result = firstNum - secondNum;
-  if(sign === '*') result = firstNum * secondNum;
-  if(sign === '/') {
+  if(operator === '+') result = firstNum + secondNum;
+  if(operator === '-') result = firstNum - secondNum;
+  if(operator === '*') result = firstNum * secondNum;
+  if(operator === '/') {
     if (secondNum === 0) {
         alert("На нуль ділити не можна");
         return reset();
@@ -42,7 +33,7 @@ function math() {
       result = firstNum / secondNum;
   }
   finish = true;
-  sign = "";
+  operator = "";
   secondNum = "";
   return (textDisplay.value = result);
 }
@@ -77,12 +68,12 @@ function math() {
         return;
       }
 
-      if (sign) {
-        console.log(sign);
+      if (operator) {
+        console.log(operator);
         secondNum = +textDisplay.value;
         return math();
       }
-      sign = clickValue;
+      operator = clickValue;
       firstNum = +textDisplay.value;
       startSecondNum = true;
       return;
@@ -125,12 +116,12 @@ function math() {
         return;
       }
 
-      if (sign) {
-        console.log(sign);
+      if (operator) {
+        console.log(operator);
         secondNum = +textDisplay.value;
         return math();
       }
-      sign = putValue;
+      operator = putValue;
       firstNum = +textDisplay.value;
       startSecondNum = true;
       return;
@@ -146,7 +137,6 @@ function math() {
   const memoryMinus = document.querySelector(".input[value='m-']");
   memoryMinus.addEventListener("click", (e) => {
     if (textDisplay.value) {
-      showOnDisplay();
       memory -= +textDisplay.value;
     }
   });
@@ -171,7 +161,6 @@ function math() {
   const memoryPlus = document.querySelector(".input[value='m+']");
   memoryPlus.addEventListener("click", (e) => {
     if (textDisplay.value) {
-      showOnDisplay();
       memory += +textDisplay.value;
     }
   });
