@@ -12,7 +12,8 @@ let firstNumb = "",
   memoryValue = 0,
   nextNumb = false,
   result = 0;
-// Функція обнулення та очистки всіх даних
+// Функція обнулення та очистки всіх даних окрім даних кнопки памяті, 
+// щоб стерти її дані треба два рази натиснути на неї, або запамятати початкове значення 0
 function reset() {
   result = 0;
   firstNumb = "";
@@ -92,11 +93,13 @@ function math() {
 }
     if(clickValue === 'm-'){
         if(memoryValue) {
-            textDisplay.value = memoryValue - textDisplay.value
+         memoryValue -= textDisplay.value
+         textDisplay.value = memoryValue
         }
     }
     if(clickValue === 'm+'){
-        textDisplay.value = memoryValue + +textDisplay.value
+        memoryValue += +textDisplay.value
+        textDisplay.value = memoryValue
     }
   });
 
@@ -151,8 +154,4 @@ function math() {
     }
   });
 
-  const memoryUse = document.querySelector(".input[value='mrc']");
-  memoryUse.addEventListener("click", (e) => {
-    const indicator = document.querySelector(".memory-indicator");
-  });
 
