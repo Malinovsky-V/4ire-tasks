@@ -6,24 +6,21 @@ const allInputValues = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."],
 let firstNumb = "",
   secondNumb = "",
   operator = "",
-  endCounter = false,
+  countOperator = [],
   memoryValue = 0,
-  nextNumb = false,
   countMrc = [];
 
 // Функція обнулення та очистки всіх даних окрім даних кнопки памяті,
 // щоб стерти її дані треба два рази натиснути на неї.
 function reset() {
   firstNumb = "";
-  nextNumb = "";
   operator = "";
   countMrc.pop();
-  endCounter = false;
   textDisplay.value = 0;
 }
 
 // Функція математичних розрахунків
-function math(first, second, oper, rslt) {
+function math(first, second, oper) {
   if (oper === "+") first += second;
   if (oper === "-") first -= second;
   if (oper === "*") first *= second;
@@ -34,7 +31,6 @@ function math(first, second, oper, rslt) {
     }
     first /= second;
   }
-  endCounter = true;
   operator = "";
   firstNumb = first;
   secondNumb = "";
@@ -48,27 +44,19 @@ blockEvent.addEventListener("click", (event) => {
     reset();
   }
   if (allInputValues.includes(clickValue)) {
-    if (endCounter || textDisplay.value === "0" || nextNumb) {
-      textDisplay.value = "";
-    }
-    nextNumb = false;
     !operator ? (firstNumb += clickValue) : (secondNumb += clickValue);
     !operator
       ? (textDisplay.value = firstNumb)
       : (textDisplay.value = secondNumb);
-
-    endCounter = false;
   }
 
   if (mathOperators.includes(clickValue)) {
-    if (
-      (endCounter || nextNumb || textDisplay.value === "") &&
-      clickValue === "-"
-    ) {
-      operator = clickValue;
-      textDisplay.value = "-";
-      nextNumb = false;
-      endCounter = false;
+    if (countOperator.includes(clickValue)) {
+      secondNumb = firstNumb;
+      math(+firstNumb, +secondNumb, operator);
+      countOperator.pop();
+    } else {
+      countOperator.push(clickValue);
     }
 
     if (operator && clickValue === "=" && !secondNumb) {
@@ -76,7 +64,6 @@ blockEvent.addEventListener("click", (event) => {
       math(+firstNumb, +secondNumb, operator);
     }
     operator = clickValue;
-    nextNumb = true;
   }
 
   if (clickValue === "=") {
@@ -88,6 +75,7 @@ blockEvent.addEventListener("click", (event) => {
     if (countMrc.includes(clickValue)) {
       memoryValue = 0;
       countMrc.pop();
+      countOperator.pop();
     } else {
       countMrc.push(clickValue);
     }
@@ -112,35 +100,24 @@ bodySelect.addEventListener("keydown", function (event) {
     reset();
   }
   if (allInputValues.includes(putValue)) {
-    if (endCounter || textDisplay.value === "0" || nextNumb) {
-      textDisplay.value = "";
-    }
-    nextNumb = false;
     !operator ? (firstNumb += putValue) : (secondNumb += putValue);
     !operator
       ? (textDisplay.value = firstNumb)
       : (textDisplay.value = secondNumb);
-
-    endCounter = false;
   }
 
   if (mathOperators.includes(putValue)) {
-    if (
-      (endCounter || nextNumb || textDisplay.value === "") &&
-      putValue === "-"
-    ) {
-      operator = putValue;
-      textDisplay.value = "-";
-      nextNumb = false;
-      endCounter = false;
+    if (countOperator.includes(putValue)) {
+      secondNumb = firstNumb;
+      math(+firstNumb, +secondNumb, operator);
+    } else {
+      countOperator.push(putValue);
     }
-
     if (operator && putValue === "=" && !secondNumb) {
       secondNumb = firstNumb;
       math(+firstNumb, +secondNumb, operator);
     }
     operator = putValue;
-    nextNumb = true;
   }
 
   if (putValue === "=" || putValue === "Enter") {
