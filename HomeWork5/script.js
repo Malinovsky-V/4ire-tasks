@@ -29,21 +29,21 @@ function reset() {
 
 // Функція математичних розрахунків
 function math(first, second, oper, rslt) {
-  if(oper === '+') rslt = +first + +second;
-  if(oper === '-') rslt = +first - +second;
-  if(oper === '*') rslt = +first * +second;
+  if(oper === '+') first += second;
+  if(oper === '-') first -= second;
+  if(oper === '*') first *= second;
   if(oper === '/') {
   if (second === 0) {
         alert("На нуль ділити не можна");
         return reset();
       }
-      result = first / second;
+      first /= second;
   }
   endCounter = true;
   operator = "";
-  firstNumb = rslt;
+  firstNumb = first;
   secondNumb = "";
-  return textDisplay.value = rslt;
+  textDisplay.value = first;
 }
 
   //  Прив'язка події кліку мишкою до всіх кнопок.
@@ -74,18 +74,21 @@ function math(first, second, oper, rslt) {
         endCounter = false;
       }
 
-      if (operator && !endCounter) {
-        secondNumb = textDisplay.value;
-        math(firstNumb, secondNumb, operator, result);
+      if (operator && clickValue === "=" && !secondNumb) {
+        secondNumb = firstNumb;
+        console.log(firstNumb)
+        math(+firstNumb, +secondNumb, operator, result);
       }
       operator = clickValue;
-      firstNumb = textDisplay.value;
+      // firstNumb = textDisplay.value;
       nextNumb = true;
     }
 
     if (clickValue === "=") {
       secondNumb = textDisplay.value;
-      math(firstNumb, secondNumb, operator, result);
+      console.log(firstNumb)
+      console.log(secondNumb)
+      math(+firstNumb, +secondNumb, operator, result);
     }
     // Блок кнопок запамятовування
     if(clickValue === 'mrc') {
