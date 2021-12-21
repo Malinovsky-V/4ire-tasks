@@ -86,6 +86,7 @@ blockEvent.addEventListener("click", (event) => {
     memoryValue -= +textDisplay.value;
     textDisplay.value = memoryValue;
   }
+
   if (clickValue === "m+") {
     memoryValue += +textDisplay.value;
     textDisplay.value = memoryValue;
