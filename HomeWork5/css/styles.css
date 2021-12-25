@@ -33,6 +33,15 @@ body {
   text-align: right;
 }
 
+.symbol{
+  position: absolute;
+  left: 10px;
+  top: calc(50% - 10px);
+  z-index: 1;
+  height: 20px;
+  user-select: none;
+}
+
 .keys {
   position: relative;
   top: 15px;

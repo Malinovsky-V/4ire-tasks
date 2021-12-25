@@ -2,6 +2,7 @@ const allInputValues = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."],
   mathOperators = ["+", "-", "*", "/"],
   textDisplay = document.querySelector("input[type='text'"),
   blockEvent = document.querySelector(".keys");
+  mValue = document.querySelector('.symbol')
 
 let firstNumb = "",
   secondNumb = "",
@@ -16,6 +17,7 @@ function reset() {
   firstNumb = "";
   operator = "";
   countMrc.pop();
+  mValue.innerHTML = ''
   textDisplay.value = 0;
 }
 
@@ -85,11 +87,13 @@ blockEvent.addEventListener("click", (event) => {
   if (clickValue === "m-") {
     memoryValue -= +textDisplay.value;
     textDisplay.value = memoryValue;
+    mValue.innerHTML = 'm-'
   }
 
   if (clickValue === "m+") {
     memoryValue += +textDisplay.value;
     textDisplay.value = memoryValue;
+    mValue.innerHTML = 'm+'
   }
 });
 
@@ -114,7 +118,7 @@ bodySelect.addEventListener("keydown", function (event) {
     } else {
       countOperator.push(putValue);
     }
-    if (operator && putValue === "=" && !secondNumb) {
+    if (operator && (putValue === "=" || putValue === "Enter")  && !secondNumb) {
       secondNumb = firstNumb;
       math(+firstNumb, +secondNumb, operator);
     }
