@@ -1,0 +1,39 @@
+*{
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    background-color: rgb(57, 59, 63);
+}
+  /* body
+  {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  } */
+
+#list_of_films {
+display: flex;
+justify-content: start;
+flex-wrap: wrap;
+font-size: 12px;
+margin: 20px;
+padding: 5px;
+border: solid black;
+
+}
+
+.list_of_films img {
+    object-fit: contain;
+    max-width: 250px;
+    max-height: auto;
+}
+
+.card {
+    text-align: center;
+    padding: 10px;
+    max-width: 250px;
+    margin: 10px;
+ display: block;
+ border: solid rgb(219, 168, 28);
+ color:rgb(219, 168, 28)
+}
